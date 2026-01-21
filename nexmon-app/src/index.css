@@ -1,0 +1,65 @@
+@import 'tailwindcss';
+
+/* CONFIGURACIÓN DEL TEMA (Tailwind v4)
+  Mapeamos los nombres de utilidad (ej: bg-nx-primary) a variables CSS dinámicas.
+*/
+@theme {
+  --color-nx-bg-main: var(--bg-main);
+  --color-nx-surface: var(--bg-surface);
+  --color-nx-primary: var(--primary);
+  --color-nx-secondary: var(--secondary);
+  --color-nx-text-main: var(--text-main);
+  --color-nx-text-secondary: var(--text-secondary);
+  --color-nx-success: var(--success);
+  --color-nx-warning: var(--warning);
+  --color-nx-error: var(--error);
+}
+
+/* VARIABLES CSS (THEMING) 
+  Aquí definimos los valores hexadecimales exactos de la especificación.
+*/
+:root {
+  /* ☀️ Light Theme Values */
+  --bg-main: #f9fafb;
+  --bg-surface: #ffffff;
+  --primary: #2563eb;
+  --secondary: #0891b2;
+  --text-main: #111827;
+  --text-secondary: #4b5563;
+  --success: #16a34a;
+  --warning: #eab308;
+  --error: #dc2626;
+}
+
+/* 🌑 Dark Theme Values 
+  Se activan cuando la clase .dark está presente en el elemento raíz.
+*/
+.dark {
+  --bg-main: #0b0f14;
+  --bg-surface: #121826;
+  --primary: #4f8cff;
+  --secondary: #22d3ee;
+  --text-main: #e5e7eb;
+  --text-secondary: #9ca3af;
+  --success: #22c55e;
+  --warning: #facc15;
+  --error: #ef4444;
+}
+
+/* Estilos base globales */
+body {
+  @apply bg-nx-bg-main text-nx-text-main transition-colors duration-200 antialiased overflow-hidden;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background-color: var(--bg-main);
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--bg-surface);
+  border-radius: 9999px;
+  border: 1px solid var(--bg-main);
+}
