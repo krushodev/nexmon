@@ -5,7 +5,7 @@
   
   A lightweight system monitor built with Rust and React.
   
-  [Download](https://github.com/krushodev/nexmon/releases) · [Website](https://your-domain.com) · [Report Bug](https://github.com/krushodev/nexmon/issues)
+  [Download](https://github.com/krushodev/nexmon/releases) · [Website](https://nexmon.vercel.app/) · [Report Bug](https://github.com/krushodev/nexmon/issues)
 </div>
 
 ---
