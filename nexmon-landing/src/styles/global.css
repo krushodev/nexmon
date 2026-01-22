@@ -1,0 +1,7 @@
+@import 'tailwindcss';
+
+/* Custom styles for NEXMON landing */
+:root {
+  --color-primary: #4f8cff;
+  --color-surface: #121826;
+}
