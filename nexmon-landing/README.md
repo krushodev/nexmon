@@ -1,43 +1,41 @@
-# Astro Starter Kit: Minimal
+# NEXMON Landing
 
-```sh
-bun create astro@latest -- --template minimal
+Landing page for the NEXMON system monitor application.
+
+## Tech Stack
+
+- **Framework**: Astro
+- **Styling**: Tailwind CSS
+
+## Development
+
+```bash
+# Install dependencies
+bun install
+
+# Run dev server
+bun dev
+
+# Build for production
+bun build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Project Structure
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
+```
+nexmon-landing/
+├── public/                    # Static assets and downloads
+│   └── nexmon_*.msi          # Installer files
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── layouts/Layout.astro  # Base layout
+│   └── pages/index.astro     # Landing page
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Updating Downloads
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+Place installer files in `public/` and update the download links in `src/pages/index.astro`.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## License
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `bun install`             | Installs dependencies                            |
-| `bun dev`             | Starts local dev server at `localhost:4321`      |
-| `bun build`           | Build your production site to `./dist/`          |
-| `bun preview`         | Preview your build locally, before deploying     |
-| `bun astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `bun astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+MIT
