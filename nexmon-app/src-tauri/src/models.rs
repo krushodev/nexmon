@@ -19,5 +19,12 @@ pub struct SystemMetrics {
     pub net_rx_speed: u64,
     pub net_tx_speed: u64,
     
-    pub top_processes: Vec<ProcessInfo>,
+    pub all_processes: Vec<ProcessInfo>,
+}
+
+#[derive(Serialize, Clone)]
+pub struct SystemInfo {
+    pub username: String,
+    pub hostname: String,
+    pub os: String,
 }

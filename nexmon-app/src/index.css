@@ -4,46 +4,133 @@
   Mapeamos los nombres de utilidad (ej: bg-nx-primary) a variables CSS dinámicas.
 */
 @theme {
+  /* Semantic colors */
   --color-nx-bg-main: var(--bg-main);
+  --color-nx-bg-secondary: var(--bg-secondary);
   --color-nx-surface: var(--bg-surface);
+  --color-nx-surface-hover: var(--bg-surface-hover);
   --color-nx-primary: var(--primary);
+  --color-nx-primary-hover: var(--primary-hover);
   --color-nx-secondary: var(--secondary);
+  --color-nx-accent: var(--accent);
   --color-nx-text-main: var(--text-main);
   --color-nx-text-secondary: var(--text-secondary);
+  --color-nx-text-muted: var(--text-muted);
   --color-nx-success: var(--success);
   --color-nx-warning: var(--warning);
   --color-nx-error: var(--error);
+  --color-nx-border: var(--border);
+  --color-nx-border-subtle: var(--border-subtle);
+
+  /* Lavender Blush palette */
+  --color-lavender-50: #f8edee;
+  --color-lavender-100: #f1dade;
+  --color-lavender-200: #e2b6bc;
+  --color-lavender-300: #d4919b;
+  --color-lavender-400: #c66c7a;
+  --color-lavender-500: #b84758;
+  --color-lavender-600: #933947;
+  --color-lavender-700: #6e2b35;
+  --color-lavender-800: #491d23;
+  --color-lavender-900: #250e12;
+  --color-lavender-950: #1a0a0c;
+
+  /* Bubblegum Pink palette */
+  --color-pink-50: #fde8e9;
+  --color-pink-100: #fad1d3;
+  --color-pink-200: #f6a2a8;
+  --color-pink-300: #f1747c;
+  --color-pink-400: #ed4551;
+  --color-pink-500: #e81725;
+  --color-pink-600: #ba121e;
+  --color-pink-700: #8b0e16;
+  --color-pink-800: #5d090f;
+  --color-pink-900: #2e0507;
+  --color-pink-950: #200305;
+
+  /* Coffee Bean palette */
+  --color-coffee-50: #f4f0f2;
+  --color-coffee-100: #eae1e5;
+  --color-coffee-200: #d5c3ca;
+  --color-coffee-300: #c0a5b0;
+  --color-coffee-400: #aa8896;
+  --color-coffee-500: #956a7b;
+  --color-coffee-600: #775563;
+  --color-coffee-700: #5a3f4a;
+  --color-coffee-800: #3c2a31;
+  --color-coffee-900: #1e1519;
+  --color-coffee-950: #150f11;
+
+  /* Graphite palette */
+  --color-graphite-50: #f3f2f2;
+  --color-graphite-100: #e6e5e5;
+  --color-graphite-200: #cdcbcb;
+  --color-graphite-300: #b4b1b1;
+  --color-graphite-400: #9b9797;
+  --color-graphite-500: #827d7d;
+  --color-graphite-600: #686464;
+  --color-graphite-700: #4e4b4b;
+  --color-graphite-800: #343232;
+  --color-graphite-900: #1a1919;
+  --color-graphite-950: #121111;
+
+  /* Pearl Aqua palette */
+  --color-aqua-50: #ebf9f7;
+  --color-aqua-100: #d7f4ef;
+  --color-aqua-200: #afe9e0;
+  --color-aqua-300: #88ddd0;
+  --color-aqua-400: #60d2c1;
+  --color-aqua-500: #38c7b1;
+  --color-aqua-600: #2d9f8e;
+  --color-aqua-700: #22776a;
+  --color-aqua-800: #165047;
+  --color-aqua-900: #0b2823;
+  --color-aqua-950: #081c19;
 }
 
 /* VARIABLES CSS (THEMING) 
-  Aquí definimos los valores hexadecimales exactos de la especificación.
+  Paleta minimalista en blanco y negro.
 */
 :root {
   /* ☀️ Light Theme Values */
-  --bg-main: #f9fafb;
+  --bg-main: #f8f9fa;
+  --bg-secondary: #e9ecef;
   --bg-surface: #ffffff;
-  --primary: #2563eb;
-  --secondary: #0891b2;
-  --text-main: #111827;
-  --text-secondary: #4b5563;
-  --success: #16a34a;
-  --warning: #eab308;
-  --error: #dc2626;
+  --bg-surface-hover: #f1f3f4;
+  --primary: #212529;
+  --primary-hover: #000000;
+  --secondary: #495057;
+  --accent: #343a40;
+  --text-main: #212529;
+  --text-secondary: #495057;
+  --text-muted: #6c757d;
+  --success: #2d7d32;
+  --warning: #6c757d;
+  --error: #dc3545;
+  --border: #dee2e6;
+  --border-subtle: #e9ecef;
 }
 
 /* 🌑 Dark Theme Values 
   Se activan cuando la clase .dark está presente en el elemento raíz.
 */
 .dark {
-  --bg-main: #0b0f14;
-  --bg-surface: #121826;
-  --primary: #4f8cff;
-  --secondary: #22d3ee;
-  --text-main: #e5e7eb;
-  --text-secondary: #9ca3af;
-  --success: #22c55e;
-  --warning: #facc15;
-  --error: #ef4444;
+  --bg-main: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-surface: #0d1117;
+  --bg-surface-hover: #1c2128;
+  --primary: #ffffff;
+  --primary-hover: #f0f6fc;
+  --secondary: #c9d1d9;
+  --accent: #8b949e;
+  --text-main: #f0f6fc;
+  --text-secondary: #c9d1d9;
+  --text-muted: #8b949e;
+  --success: #238636;
+  --warning: #6c757d;
+  --error: #f85149;
+  --border: #30363d;
+  --border-subtle: #21262d;
 }
 
 /* Estilos base globales */
@@ -53,13 +140,24 @@ body {
 
 /* Scrollbar personalizada */
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
+  height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background-color: var(--bg-main);
+  background-color: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: var(--bg-surface);
+  background-color: var(--border);
   border-radius: 9999px;
-  border: 1px solid var(--bg-main);
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-muted);
+}
+
+/* Transiciones suaves para el tema */
+* {
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
 }

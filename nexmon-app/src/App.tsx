@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { listen } from '@tauri-apps/api/event';
-import { Moon, Sun, Activity, Zap, Cpu, ArrowDownUp, Server } from 'lucide-react';
-import { AreaChart } from './components/AreaChart';
+import { Moon, Sun, Monitor, Server, LayoutDashboard } from 'lucide-react';
+import { DashboardTab } from './components/DashboardTab';
+import { ResourcesTab } from './components/ResourcesTab';
+import { ProcessesTab } from './components/ProcessesTab';
+import logoWhite from './assets/logo-white.png';
+import logoBlack from './assets/logo-black.png';
 
 // --- TYPES ---
 interface ProcessInfo {
@@ -18,7 +22,7 @@ interface SystemMetrics {
   ram_free: number;
   net_rx_speed: number;
   net_tx_speed: number;
-  top_processes: ProcessInfo[];
+  all_processes: ProcessInfo[];
 }
 
 interface HistoryPoint {
@@ -26,11 +30,12 @@ interface HistoryPoint {
   value: number;
 }
 
-const MAX_HISTORY_POINTS = 30;
+const MAX_HISTORY_POINTS = 60;
 
 function App() {
   const [isDark, setIsDark] = useState(true);
   const [metrics, setMetrics] = useState<SystemMetrics | null>(null);
+  const [activeTab, setActiveTab] = useState('dashboard');
 
   const [cpuHistory, setCpuHistory] = useState<HistoryPoint[]>([]);
   const [ramHistory, setRamHistory] = useState<HistoryPoint[]>([]);
@@ -80,101 +85,74 @@ function App() {
     return `${formatBytes(bytesPerSec)}/s`;
   };
 
+  const NavButton = ({ id, label, icon, isActive }: { id: string; label: string; icon: React.ReactNode; isActive: boolean }) => (
+    <button
+      onClick={() => setActiveTab(id)}
+      className={`
+        flex items-center gap-2 px-4 py-2 text-sm font-medium transition-all duration-150 rounded-lg
+        ${isActive ? 'bg-nx-primary/10 text-nx-primary' : 'text-nx-text-secondary hover:text-nx-text-main hover:bg-nx-bg-main/50'}
+      `}
+    >
+      {icon}
+      <span>{label}</span>
+    </button>
+  );
+
   return (
     <div className="h-screen w-screen flex flex-col bg-nx-bg-main text-nx-text-main font-sans select-none overflow-hidden">
       {/* HEADER */}
-      <header className="h-14 bg-nx-surface border-b border-nx-surface/50 flex items-center justify-between px-6 shrink-0 z-10 shadow-sm transition-colors">
-        <div className="flex items-center gap-2">
-          <div className="p-1.5 bg-nx-primary/10 rounded-lg">
-            <Activity className="w-5 h-5 text-nx-primary" />
+      <header className="h-12 bg-nx-surface border-b border-nx-border-subtle flex items-center justify-between px-4 shrink-0 z-10">
+        <div className="flex items-center gap-6">
+          {/* Logo */}
+          <div className="flex items-center gap-2">
+            <img src={isDark ? logoWhite : logoBlack} alt="NEXMON" className="h-6 w-auto" />
           </div>
-          <h1 className="font-bold text-lg tracking-tight">NEXMON</h1>
+
+          {/* Navigation */}
+          <nav className="flex items-center gap-1">
+            <NavButton id="dashboard" label="Dashboard" icon={<LayoutDashboard className="w-4 h-4" />} isActive={activeTab === 'dashboard'} />
+            <NavButton id="resources" label="Resources" icon={<Monitor className="w-4 h-4" />} isActive={activeTab === 'resources'} />
+            <NavButton id="processes" label="Processes" icon={<Server className="w-4 h-4" />} isActive={activeTab === 'processes'} />
+          </nav>
         </div>
 
-        <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-md hover:bg-nx-bg-main transition-colors text-nx-text-secondary hover:text-nx-primary cursor-pointer">
-          {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        {/* Theme Toggle */}
+        <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-lg hover:bg-nx-bg-main transition-colors text-nx-text-secondary hover:text-nx-primary">
+          {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
       </header>
 
       {/* MAIN CONTENT */}
-      <main className="flex-1 p-6 overflow-hidden flex flex-col gap-6">
-        {/* ROW 1: KPI CARDS */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 shrink-0">
-          <MetricCard title="CPU Usage" value={metrics ? `${metrics.cpu_usage.toFixed(1)}%` : '...'} icon={<Cpu className="w-4 h-4" />} />
-          <MetricCard title="RAM Used" value={metrics ? formatBytes(metrics.ram_used) : '...'} icon={<Zap className="w-4 h-4" />} />
-          <MetricCard title="Net Download" value={metrics ? formatSpeed(metrics.net_rx_speed) : '...'} icon={<ArrowDownUp className="w-4 h-4 text-nx-success" />} />
-          <MetricCard title="Net Upload" value={metrics ? formatSpeed(metrics.net_tx_speed) : '...'} icon={<ArrowDownUp className="w-4 h-4 text-nx-warning" />} />
-        </div>
-
-        {/* ROW 2: CHARTS & PROCESS TABLE */}
-        <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-0">
-          {/* Charts Column (Takes up 2/3 space on large screens) */}
-          <div className="lg:col-span-2 flex flex-col gap-6 h-full">
-            <div className="flex-1 bg-nx-surface rounded-xl border border-nx-bg-main shadow-sm p-4 flex flex-col min-h-0">
-              <AreaChart data={cpuHistory} title="CPU History" colorVar="--primary" unit="%" />
-            </div>
-            <div className="flex-1 bg-nx-surface rounded-xl border border-nx-bg-main shadow-sm p-4 flex flex-col min-h-0">
-              <AreaChart data={ramHistory} title="RAM History (GB)" colorVar="--secondary" unit=" GB" />
-            </div>
-          </div>
-
-          {/* Processes Column (Takes up 1/3 space) */}
-          <div className="bg-nx-surface rounded-xl border border-nx-bg-main shadow-sm p-4 flex flex-col h-full overflow-hidden">
-            <div className="flex items-center gap-2 mb-4 px-2">
-              <Server className="w-4 h-4 text-nx-text-secondary" />
-              <h3 className="text-sm font-medium text-nx-text-secondary uppercase tracking-wider">Top Processes</h3>
-            </div>
-
-            <div className="flex-1 overflow-auto">
-              <table className="w-full text-left border-collapse">
-                <thead className="sticky top-0 bg-nx-surface text-xs text-nx-text-secondary uppercase">
-                  <tr>
-                    <th className="pb-3 font-medium">Name</th>
-                    <th className="pb-3 font-medium text-right">CPU</th>
-                    <th className="pb-3 font-medium text-right">Mem</th>
-                  </tr>
-                </thead>
-                <tbody className="text-sm divide-y divide-nx-bg-main/50">
-                  {metrics?.top_processes.map(proc => (
-                    <tr key={proc.pid} className="group hover:bg-nx-bg-main/50 transition-colors">
-                      <td className="py-2.5 truncate max-w-[120px]" title={proc.name}>
-                        <div className="font-medium text-nx-text-main">{proc.name}</div>
-                        <div className="text-[10px] text-nx-text-secondary">PID: {proc.pid}</div>
-                      </td>
-                      <td className="py-2.5 text-right font-mono text-nx-primary">{proc.cpu.toFixed(1)}%</td>
-                      <td className="py-2.5 text-right font-mono text-nx-text-secondary">{formatBytes(proc.memory)}</td>
-                    </tr>
-                  ))}
-                  {!metrics && (
-                    <tr>
-                      <td colSpan={3} className="text-center py-4 text-nx-text-secondary text-xs">
-                        Loading...
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+      <main className="flex-1 overflow-hidden relative bg-nx-bg-secondary">
+        {activeTab === 'dashboard' && (
+          <DashboardTab
+            cpuUsage={metrics?.cpu_usage ?? 0}
+            ramUsed={metrics?.ram_used ?? 0}
+            ramTotal={metrics?.ram_total ?? 0}
+            netRx={metrics?.net_rx_speed ?? 0}
+            netTx={metrics?.net_tx_speed ?? 0}
+            formatBytes={formatBytes}
+            isDark={isDark}
+          />
+        )}
+        {activeTab === 'resources' && <ResourcesTab metrics={metrics} cpuHistory={cpuHistory} ramHistory={ramHistory} formatBytes={formatBytes} formatSpeed={formatSpeed} />}
+        {activeTab === 'processes' && <ProcessesTab processes={metrics?.all_processes || []} formatBytes={formatBytes} />}
       </main>
 
-      <footer className="h-8 bg-nx-surface border-t border-nx-surface/50 flex items-center px-4 text-xs text-nx-text-secondary justify-between shrink-0 transition-colors">
-        <span>System: Online</span>
-        <span>v0.8.0-beta</span>
+      {/* Footer */}
+      <footer className="h-7 bg-nx-surface border-t border-nx-border-subtle flex items-center px-4 text-[11px] text-nx-text-muted justify-between shrink-0">
+        <div className="flex items-center gap-4">
+          {metrics && (
+            <>
+              <span>CPU: {metrics.cpu_usage.toFixed(0)}%</span>
+              <span>RAM: {formatBytes(metrics.ram_used)}</span>
+            </>
+          )}
+        </div>
+        <span>v1.0.0</span>
       </footer>
     </div>
   );
 }
-
-const MetricCard = ({ title, value, icon }: { title: string; value: string; icon: React.ReactNode }) => (
-  <div className="bg-nx-surface p-4 rounded-xl border border-nx-bg-main shadow-sm transition-all duration-200">
-    <div className="flex justify-between items-start mb-2">
-      <span className="text-nx-text-secondary text-xs font-medium uppercase tracking-wider">{title}</span>
-      <span className="text-nx-primary">{icon}</span>
-    </div>
-    <div className="text-2xl font-bold text-nx-text-main tabular-nums tracking-tight">{value}</div>
-  </div>
-);
 
 export default App;
