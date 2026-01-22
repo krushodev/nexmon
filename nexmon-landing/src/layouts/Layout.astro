@@ -7,16 +7,19 @@ const { title } = Astro.props;
 ---
 
 <!doctype html>
-<html lang="es" class="dark">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="NEXMON - Next Generation System Monitor" />
+    <meta name="description" content="NEXMON - Lightweight system monitor built with Rust and Tauri. Real-time performance monitoring with zero overhead." />
     <meta name="viewport" content="width=device-width" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+    <link rel="icon" href="/logo-white.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/logo-white.png" />
     <title>{title}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   </head>
-  <body class="bg-[#0B0F14] text-[#E5E7EB] font-sans antialiased overflow-x-hidden">
+  <body class="bg-[#0d1117] text-[#f0f6fc] font-sans antialiased overflow-x-hidden">
     <slot />
   </body>
 </html>
@@ -25,27 +28,29 @@ const { title } = Astro.props;
   @import '../styles/global.css';
 
   :root {
-    --primary: #4f8cff;
-    --surface: #121826;
+    --bg-main: #0d1117;
+    --bg-surface: #161b22;
+    --border: #30363d;
+    --text-main: #f0f6fc;
+    --text-secondary: #c9d1d9;
+    --text-muted: #8b949e;
   }
   html {
     font-family: 'Inter', system-ui, sans-serif;
     scroll-behavior: smooth;
   }
 
-  /* Scrollbar consistente con la app */
   ::-webkit-scrollbar {
-    width: 10px;
+    width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0b0f14;
+    background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: #121826;
-    border: 1px solid #0b0f14;
-    border-radius: 5px;
+    background: #30363d;
+    border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #1f2937;
+    background: #8b949e;
   }
 </style>
