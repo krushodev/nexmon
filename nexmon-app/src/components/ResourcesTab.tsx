@@ -35,13 +35,6 @@ interface ResourcesTabProps {
 export const ResourcesTab: React.FC<ResourcesTabProps> = ({ metrics, cpuHistory, ramHistory, formatBytes }) => {
   const [activeResource, setActiveResource] = useState<ResourceType>('cpu');
 
-  const disks = [
-    { name: 'Disk 0', type: 'HDD (SATA)', usage: 0 },
-    { name: 'Disk 1', type: 'SSD (SATA)', usage: 0 }
-  ];
-
-  const networks = [{ name: 'Ethernet', speed: '0 Kbps' }];
-
   return (
     <div className="h-full flex overflow-hidden">
       <ResourcesSidebar
@@ -51,10 +44,6 @@ export const ResourcesTab: React.FC<ResourcesTabProps> = ({ metrics, cpuHistory,
         cpuName="Processor"
         memoryUsed={metrics?.ram_used ?? 0}
         memoryTotal={metrics?.ram_total ?? 0}
-        disks={disks}
-        networks={networks}
-        gpuName="Graphics"
-        gpuUsage={0}
         formatBytes={formatBytes}
       />
       <ResourceDetail

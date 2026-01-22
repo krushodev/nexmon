@@ -6,7 +6,7 @@ interface HistoryPoint {
 }
 
 interface ResourceDetailProps {
-  type: 'cpu' | 'memory' | 'disk' | 'network' | 'gpu';
+  type: 'cpu' | 'memory';
   cpuUsage: number;
   cpuHistory: HistoryPoint[];
   memoryUsed: number;
@@ -111,92 +111,6 @@ export const ResourceDetail: React.FC<ResourceDetailProps> = ({ type, cpuUsage, 
           <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
             <p className="text-xs text-nx-text-muted mb-1">Usage</p>
             <p className="text-lg font-semibold text-nx-text-main">{memoryPercent.toFixed(0)}%</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === 'disk') {
-    return (
-      <div className="flex-1 p-6 overflow-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-light text-nx-text-main">Disk</h2>
-          <span className="text-2xl font-light text-nx-text-secondary">--</span>
-        </div>
-
-        <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4 mb-6 h-64 flex items-center justify-center">
-          <p className="text-nx-text-muted">Disk monitoring coming soon</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Read speed</p>
-            <p className="text-lg font-semibold text-nx-text-main">-- MB/s</p>
-          </div>
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Write speed</p>
-            <p className="text-lg font-semibold text-nx-text-main">-- MB/s</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === 'network') {
-    return (
-      <div className="flex-1 p-6 overflow-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-light text-nx-text-main">Network</h2>
-          <span className="text-2xl font-light text-nx-text-secondary">Ethernet</span>
-        </div>
-
-        <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4 mb-6 h-64 flex items-center justify-center">
-          <p className="text-nx-text-muted">Network monitoring coming soon</p>
-        </div>
-
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Download</p>
-            <p className="text-lg font-semibold text-nx-text-main">0 Kbps</p>
-          </div>
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Upload</p>
-            <p className="text-lg font-semibold text-nx-text-main">0 Kbps</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (type === 'gpu') {
-    return (
-      <div className="flex-1 p-6 overflow-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-light text-nx-text-main">GPU</h2>
-          <span className="text-2xl font-light text-nx-text-secondary">--</span>
-        </div>
-
-        <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4 mb-6 h-64 flex items-center justify-center">
-          <p className="text-nx-text-muted">GPU monitoring coming soon</p>
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Utilization</p>
-            <p className="text-lg font-semibold text-nx-text-main">--%</p>
-          </div>
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Temperature</p>
-            <p className="text-lg font-semibold text-nx-text-main">-- °C</p>
-          </div>
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Memory</p>
-            <p className="text-lg font-semibold text-nx-text-main">-- GB</p>
-          </div>
-          <div className="bg-nx-surface rounded-xl border border-nx-border-subtle p-4">
-            <p className="text-xs text-nx-text-muted mb-1">Driver</p>
-            <p className="text-lg font-semibold text-nx-text-main">--</p>
           </div>
         </div>
       </div>

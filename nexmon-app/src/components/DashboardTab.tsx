@@ -21,9 +21,9 @@ interface DashboardTabProps {
 export const DashboardTab: React.FC<DashboardTabProps> = ({ cpuUsage, ramUsed, ramTotal, netRx, netTx, formatBytes, isDark }) => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [systemInfo, setSystemInfo] = useState<SystemInfo>({
-    username: 'Loading...',
-    hostname: 'Loading...',
-    os: 'Loading...'
+    username: '',
+    hostname: '',
+    os: ''
   });
 
   useEffect(() => {
@@ -37,11 +37,7 @@ export const DashboardTab: React.FC<DashboardTabProps> = ({ cpuUsage, ramUsed, r
         setSystemInfo(info);
       })
       .catch(() => {
-        setSystemInfo({
-          username: 'User',
-          hostname: 'PC',
-          os: 'windows'
-        });
+        // Silently handle errors, keep default values
       });
   }, []);
 

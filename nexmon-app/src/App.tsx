@@ -7,7 +7,6 @@ import { ProcessesTab } from './components/ProcessesTab';
 import logoWhite from './assets/logo-white.png';
 import logoBlack from './assets/logo-black.png';
 
-// --- TYPES ---
 interface ProcessInfo {
   pid: number;
   name: string;
@@ -72,7 +71,6 @@ function App() {
     };
   }, []);
 
-  // --- HELPERS ---
   const formatBytes = (bytes: number) => {
     if (bytes === 0) return '0 B';
     const k = 1024;
@@ -100,15 +98,12 @@ function App() {
 
   return (
     <div className="h-screen w-screen flex flex-col bg-nx-bg-main text-nx-text-main font-sans select-none overflow-hidden">
-      {/* HEADER */}
       <header className="h-12 bg-nx-surface border-b border-nx-border-subtle flex items-center justify-between px-4 shrink-0 z-10">
         <div className="flex items-center gap-6">
-          {/* Logo */}
           <div className="flex items-center gap-2">
             <img src={isDark ? logoWhite : logoBlack} alt="NEXMON" className="h-6 w-auto" />
           </div>
 
-          {/* Navigation */}
           <nav className="flex items-center gap-1">
             <NavButton id="dashboard" label="Dashboard" icon={<LayoutDashboard className="w-4 h-4" />} isActive={activeTab === 'dashboard'} />
             <NavButton id="resources" label="Resources" icon={<Monitor className="w-4 h-4" />} isActive={activeTab === 'resources'} />
@@ -116,13 +111,11 @@ function App() {
           </nav>
         </div>
 
-        {/* Theme Toggle */}
         <button onClick={() => setIsDark(!isDark)} className="p-2 rounded-lg hover:bg-nx-bg-main transition-colors text-nx-text-secondary hover:text-nx-primary">
           {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
         </button>
       </header>
 
-      {/* MAIN CONTENT */}
       <main className="flex-1 overflow-hidden relative bg-nx-bg-secondary">
         {activeTab === 'dashboard' && (
           <DashboardTab
@@ -139,7 +132,6 @@ function App() {
         {activeTab === 'processes' && <ProcessesTab processes={metrics?.all_processes || []} formatBytes={formatBytes} />}
       </main>
 
-      {/* Footer */}
       <footer className="h-7 bg-nx-surface border-t border-nx-border-subtle flex items-center px-4 text-[11px] text-nx-text-muted justify-between shrink-0">
         <div className="flex items-center gap-4">
           {metrics && (
@@ -149,7 +141,7 @@ function App() {
             </>
           )}
         </div>
-        <span>v1.0.0</span>
+        <span>v1.0.1</span>
       </footer>
     </div>
   );

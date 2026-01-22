@@ -1,6 +1,6 @@
-import { Cpu, MemoryStick, HardDrive, Wifi, MonitorDot } from 'lucide-react';
+import { Cpu, MemoryStick } from 'lucide-react';
 
-export type ResourceType = 'cpu' | 'memory' | 'disk' | 'network' | 'gpu';
+export type ResourceType = 'cpu' | 'memory';
 
 interface ResourceItemProps {
   type: ResourceType;
@@ -19,12 +19,6 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ type, label, sublabel, valu
         return <Cpu className={iconClass} />;
       case 'memory':
         return <MemoryStick className={iconClass} />;
-      case 'disk':
-        return <HardDrive className={iconClass} />;
-      case 'network':
-        return <Wifi className={iconClass} />;
-      case 'gpu':
-        return <MonitorDot className={iconClass} />;
     }
   };
 
@@ -51,17 +45,6 @@ const ResourceItem: React.FC<ResourceItemProps> = ({ type, label, sublabel, valu
   );
 };
 
-interface DiskInfo {
-  name: string;
-  type: string;
-  usage: number;
-}
-
-interface NetworkInfo {
-  name: string;
-  speed: string;
-}
-
 interface ResourcesSidebarProps {
   activeResource: ResourceType;
   onResourceChange: (resource: ResourceType) => void;
@@ -69,26 +52,10 @@ interface ResourcesSidebarProps {
   cpuName: string;
   memoryUsed: number;
   memoryTotal: number;
-  disks: DiskInfo[];
-  networks: NetworkInfo[];
-  gpuName: string;
-  gpuUsage: number;
   formatBytes: (bytes: number) => string;
 }
 
-export const ResourcesSidebar: React.FC<ResourcesSidebarProps> = ({
-  activeResource,
-  onResourceChange,
-  cpuUsage,
-  cpuName,
-  memoryUsed,
-  memoryTotal,
-  disks,
-  networks,
-  gpuName,
-  gpuUsage,
-  formatBytes
-}) => {
+export const ResourcesSidebar: React.FC<ResourcesSidebarProps> = ({ activeResource, onResourceChange, cpuUsage, cpuName, memoryUsed, memoryTotal, formatBytes }) => {
   const memoryPercent = memoryTotal > 0 ? ((memoryUsed / memoryTotal) * 100).toFixed(0) : '0';
 
   return (
@@ -104,32 +71,6 @@ export const ResourcesSidebar: React.FC<ResourcesSidebarProps> = ({
           isActive={activeResource === 'memory'}
           onClick={() => onResourceChange('memory')}
         />
-
-        {disks.map((disk, index) => (
-          <ResourceItem
-            key={`disk-${index}`}
-            type="disk"
-            label={`Disk ${index}`}
-            sublabel={disk.type}
-            value={`${disk.usage}%`}
-            isActive={activeResource === 'disk'}
-            onClick={() => onResourceChange('disk')}
-          />
-        ))}
-
-        {networks.map((network, index) => (
-          <ResourceItem
-            key={`network-${index}`}
-            type="network"
-            label={network.name}
-            sublabel="Ethernet"
-            value={network.speed}
-            isActive={activeResource === 'network'}
-            onClick={() => onResourceChange('network')}
-          />
-        ))}
-
-        <ResourceItem type="gpu" label="GPU" sublabel={gpuName} value={`${gpuUsage}%`} isActive={activeResource === 'gpu'} onClick={() => onResourceChange('gpu')} />
       </div>
     </div>
   );

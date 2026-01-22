@@ -7,14 +7,11 @@ use crate::models::{SystemMetrics, ProcessInfo};
 const REFRESH_INTERVAL_SECS: u64 = 2;
 
 fn get_network_stats() -> (u64, u64) {
-    // Por ahora usamos valores simulados para la red
-    // En una versión futura podemos implementar monitoreo real
-    // usando APIs nativas o sysinfo cuando esté disponible
+    // TODO: Implement real network monitoring using native APIs or sysinfo when available
     static mut LAST_RX: u64 = 0;
     static mut LAST_TX: u64 = 0;
     
     unsafe {
-        // Simular tráfico de red con valores realistas
         let rx_variation = (std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() % 1000) as u64 * 1024;
         let tx_variation = (std::time::SystemTime::now().duration_since(std::time::UNIX_EPOCH).unwrap().as_millis() % 500) as u64 * 1024;
         
@@ -34,7 +31,6 @@ pub fn start_monitor(app: AppHandle) {
                 .with_processes(ProcessRefreshKind::everything()),
         );
 
-        // Variables para calcular la tasa de red
         let mut last_rx = 0u64;
         let mut last_tx = 0u64;
         let mut last_time = std::time::Instant::now();
@@ -42,7 +38,6 @@ pub fn start_monitor(app: AppHandle) {
         loop {
             thread::sleep(Duration::from_secs(REFRESH_INTERVAL_SECS));
             
-            // Refrescar métricas
             sys.refresh_cpu_all();
             sys.refresh_memory();
             sys.refresh_processes_specifics(
@@ -51,7 +46,6 @@ pub fn start_monitor(app: AppHandle) {
                 ProcessRefreshKind::everything().without_user().without_environ()
             );
 
-            // 1. CPU
             let cpus = sys.cpus();
             let cpu_usage_avg = if !cpus.is_empty() {
                 cpus.iter().map(|c| c.cpu_usage()).sum::<f32>() / cpus.len() as f32
@@ -59,7 +53,6 @@ pub fn start_monitor(app: AppHandle) {
                 0.0
             };
 
-            // 2. RED - Obtener estadísticas de red
             let (current_rx, current_tx) = get_network_stats();
             let current_time = std::time::Instant::now();
             
@@ -77,11 +70,9 @@ pub fn start_monitor(app: AppHandle) {
             last_tx = current_tx;
             last_time = current_time;
 
-            // 3. DISCO (Placeholder por ahora)
             let disk_read_speed = 0u64;
             let disk_write_speed = 0u64;
 
-            // 4. PROCESOS
             let processes: Vec<ProcessInfo> = sys.processes().iter().map(|(pid, proc)| {
                 ProcessInfo {
                     pid: pid.as_u32(),
@@ -103,8 +94,8 @@ pub fn start_monitor(app: AppHandle) {
                 all_processes: processes,
             };
 
-            if let Err(e) = app.emit("metrics-update", &metrics) {
-                eprintln!("Error emitiendo métricas: {}", e);
+            if let Err(_) = app.emit("metrics-update", &metrics) {
+                // Silently handle emit errors
             }
         }
     });

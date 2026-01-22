@@ -157,7 +157,7 @@ export const ProcessesTab: React.FC<ProcessesTabProps> = ({ processes, formatByt
               {sortedProcesses.length === 0 && (
                 <tr>
                   <td colSpan={6} className="text-center py-8 text-nx-text-muted text-sm">
-                    {searchQuery ? 'No processes found' : 'Loading processes...'}
+                    {searchQuery ? 'No processes found' : ''}
                   </td>
                 </tr>
               )}
